@@ -23,4 +23,4 @@ NYC Open Data for bathroom data
 Endpoint: https://data.cityofnewyork.us/resource/h87e-shkn.json
 5. Running The App & Data Persistency
 I plan on using vite to run and host the app on a local network, if it doesn't work then i can install a package called “serve”
-For Data permanence, I will use mongoDb 
+For Data permanence, I will use supabase
