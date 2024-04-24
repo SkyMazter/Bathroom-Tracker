@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
-import "./App.css";
+
 import { useState } from "react";
 
 function App() {
