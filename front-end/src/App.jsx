@@ -3,7 +3,7 @@ import { GoogleMap, MarkerF, useJsApiLoader} from "@react-google-maps/api";
 import "./App.css";
 import { useState, useEffect } from "react";
 
-ymrtswtjrsjtrsbfzxfsngfs
+
 function App() {
 
   const [center, setCenter] = useState({ lat: 40.7678, lng: -73.9645 }); //set this to hunter coordinates later
