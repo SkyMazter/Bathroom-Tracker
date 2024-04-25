@@ -10,7 +10,6 @@ const QuickInfo = () => {
   */
 
   const [nycData, setNycData] = useState([]);
-
   const [isLoaded, setIsLoaded] = useState(false);
 
   const getNYCData = async () => {
@@ -47,8 +46,7 @@ const QuickInfo = () => {
   }, [isLoaded]);
 
   if (isLoaded) {
-    console.log(nycData[1]);
-    console.log(isLoaded);
+
     let arr = nycData;
     return (
       <div>
