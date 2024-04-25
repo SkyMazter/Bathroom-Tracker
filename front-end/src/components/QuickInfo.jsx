@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { Container } from "react-bootstrap";
+import InfoCard from "./InfoCard.jsx";
 
 const QuickInfo = () => {
   //PLans for this component
@@ -46,15 +48,13 @@ const QuickInfo = () => {
   }, [isLoaded]);
 
   if (isLoaded) {
-
     let arr = nycData;
     return (
-      <div>
-        <p>Title</p>
+      <Container className="mx-3">
         {arr.map((element, index) => (
-          <p key={index}>{element.name}: Name</p>
+          <InfoCard name={element.name} location={element.location} key={index}></InfoCard>
         ))}
-      </div>
+      </Container>
     );
   } else {
     return <p>Loading...</p>;

@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { GoogleMap, MarkerF, useJsApiLoader } from "@react-google-maps/api";
-import "./App.css";
+
 import { useState, useEffect } from "react";
 import mapStyle from "./style/mapStyle.js";
 
@@ -44,17 +44,15 @@ function App() {
   }, []);
 
   return (
-    <div className="d-flex align-items-center">
+    <div className="d-flex flex-column justify-content-center align-items-center">
       <h1>Bathroom Finder</h1>
-      {geoError ? (
-        <input placeholder="Please enter an address to begin"></input>
-      ) : (
-        <div>
-          <p>Your current Zipcode is /*Placeholder*/, Wish to recenter?</p>{" "}
-          <button>yes</button>
-        </div>
-      )}
-      <div style={divStyle}>
+
+
+      <div style={{
+    "width": "95vw",
+    "height": "550px",
+  }}>
+      <input className=" w-100" placeholder="Please enter an address to change map view"></input>
         {isLoaded ? (
           <GoogleMap
             center={center}
