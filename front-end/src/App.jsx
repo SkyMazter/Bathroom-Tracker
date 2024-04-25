@@ -47,12 +47,16 @@ function App() {
     <div className="d-flex flex-column justify-content-center align-items-center">
       <h1>Bathroom Finder</h1>
 
-
-      <div style={{
-    "width": "95vw",
-    "height": "550px",
-  }}>
-      <input className=" w-100" placeholder="Please enter an address to change map view"></input>
+      <div
+        style={{
+          width: "95vw",
+          height: "550px",
+        }}
+      >
+        <input
+          className=" w-100"
+          placeholder="Please enter an address to change map view"
+        ></input>
         {isLoaded ? (
           <GoogleMap
             center={center}
