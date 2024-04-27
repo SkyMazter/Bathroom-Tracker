@@ -1,8 +1,9 @@
 import { Outlet } from "react-router-dom";
 import { GoogleMap, MarkerF, useJsApiLoader } from "@react-google-maps/api";
-
+import { Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import mapStyle from "./style/mapStyle.js";
+import MapReCenter from "./components/MapReCenter.jsx";
 
 function App() {
   const [geoError, setGeoError] = useState(false);
@@ -44,19 +45,19 @@ function App() {
   }, []);
 
   return (
-    <div className="d-flex flex-column justify-content-center align-items-center">
-      <h1>Bathroom Finder</h1>
+    <div style={{
+      backgroundColor: '#aeccc0'
+    }} className="d-flex flex-column justify-content-center align-items-center">
+      <p className="display-3">Bathroom Finder</p>
 
       <div
         style={{
           width: "95vw",
           height: "550px",
+
         }}
       >
-        <input
-          className=" w-100"
-          placeholder="Please enter an address to change map view"
-        ></input>
+        <MapReCenter></MapReCenter>
         {isLoaded ? (
           <GoogleMap
             center={center}
@@ -70,6 +71,7 @@ function App() {
           <p>There was an error loading the map</p>
         )}
       </div>
+      
       <Outlet />
     </div>
   );
