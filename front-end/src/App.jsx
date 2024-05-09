@@ -1,22 +1,26 @@
 import { Outlet } from "react-router-dom";
 import { GoogleMap, MarkerF, useJsApiLoader } from "@react-google-maps/api";
+import { RiMapPinUserFill } from "react-icons/ri";
 import { Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import mapStyle from "./style/mapStyle.js";
 import MapReCenter from "./components/MapReCenter.jsx";
+import { useSelector, useDispatch } from 'react-redux'
+import { setLat, setLng } from "./store/slices/locationSlice.js";
+import { setMap } from "./store/slices/mapSlice.js";
+import userIcon from "./assets/user_icon.png"
 
 function App() {
+  const dispatch = useDispatch();
+  const center = useSelector( (state) =>state.location.value)
   const [geoError, setGeoError] = useState(false);
-  const [center, setCenter] = useState({ lat: 40.7678, lng: -73.9645 }); //set this to hunter coordinates later
 
   const getGeoloaction = async () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
-          setCenter({
-            lat: pos.coords.latitude,
-            lng: pos.coords.longitude,
-          });
+          dispatch(setLat(Number(pos.coords.latitude)));
+          dispatch(setLng(Number(pos.coords.longitude)));
         },
         (err) => {
           setGeoError(true);
@@ -63,10 +67,23 @@ function App() {
             center={center}
             zoom={16}
             mapContainerStyle={divStyle}
+            onLoad={ (map)=> {
+              map.panTo(center)
+              dispatch(setMap(map))
+            }}
             options={{
               styles: mapStyle,
             }}
-          ></GoogleMap>
+          >
+
+            <MarkerF position={center} icon={ {
+                url: userIcon,
+                scaledSize: new window.google.maps.Size(50,50)
+            }}
+            >
+            
+            </MarkerF>
+          </GoogleMap>
         ) : (
           <p>There was an error loading the map</p>
         )}

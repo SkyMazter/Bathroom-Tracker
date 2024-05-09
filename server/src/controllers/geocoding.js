@@ -2,9 +2,6 @@ import "dotenv/config";
 
 const getGeocodeAddress = async (req, res) => {
   const address = req.params.address;
-//   if (address == "") {
-//     return;
-//   }
   try {
     const response = await fetch(
       `https://geocode.maps.co/search?q=${address}&api_key=${process.env.GEOCODING_API_KEY}`,

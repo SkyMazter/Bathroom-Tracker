@@ -1,8 +1,11 @@
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setLat, setLng } from "../store/slices/locationSlice.js";
+
 const MapReCenter = () => {
   const [address, setAddress] = useState("");
-  const [newCenter, setNewCenter] = useState();
-
+  const dispatch = useDispatch();
+  const map = useSelector((state) => state.map.map);
   const geocodeAddress = async () => {
     if (address == "") {
       return;
@@ -21,9 +24,17 @@ const MapReCenter = () => {
       if (response.ok) {
         const res = response.json();
         res.then((data) => {
-          setNewCenter(data);
-          console.log(data);
+          if (data.length == 0) {
+            alert("Address may be incorrect or incomplete");
+            return;
+          }
+
+          dispatch(setLat(Number(data[0].lat)));
+          dispatch(setLng(Number(data[0].lon)));
+          map.panTo({ lat: Number(data[0].lat), lng: Number(data[0].lon) });
         });
+      } else {
+        alert("Address may be incorrect or incomplete");
       }
     } catch (error) {
       console.log(error);
