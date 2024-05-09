@@ -36,10 +36,6 @@ const QuickInfo = () => {
     }
   };
 
-  // const clickhandler = () => {
-  //   // console.log(nycData);
-  // };
-
   useEffect(() => {
     getNYCData();
 

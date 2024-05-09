@@ -13,6 +13,9 @@ import userIcon from "./assets/user_icon.png"
 function App() {
   const dispatch = useDispatch();
   const center = useSelector( (state) =>state.location.value)
+  const markers = useSelector( (state) =>state.map.markers)
+  const nycPublicMarker = useSelector( (state) =>state.map.selectedMarker)
+  const showNycMarker = useSelector( (state) =>state.map.isShowingNycMarker)
   const [geoError, setGeoError] = useState(false);
 
   const getGeoloaction = async () => {
@@ -80,9 +83,13 @@ function App() {
                 url: userIcon,
                 scaledSize: new window.google.maps.Size(50,50)
             }}
-            >
+            />
+
+            {showNycMarker ? (
+              <MarkerF position={nycPublicMarker.position}></MarkerF>
+            ): null }
             
-            </MarkerF>
+            
           </GoogleMap>
         ) : (
           <p>There was an error loading the map</p>

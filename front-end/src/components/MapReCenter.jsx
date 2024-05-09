@@ -43,7 +43,6 @@ const MapReCenter = () => {
 
   const handleOnSubmit = (event) => {
     event.preventDefault();
-
     geocodeAddress();
   };
 
