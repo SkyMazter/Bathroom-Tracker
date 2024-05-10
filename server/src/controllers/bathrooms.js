@@ -18,4 +18,39 @@ const getAllBathrooms = async (req, res) => {
   }
 };
 
-export { getAllBathrooms };
+/*
+{
+  id: int
+  lat: float
+  lng: float
+  address: string
+  notes: string
+}
+*/
+const setNewBathroom = async (req, res) => {
+  console.log(req.body);
+  try {
+    const { error } = await supabase.from("bathrooms").insert({
+      name: req.body.name,
+      lat: req.body.lat,
+      lng: req.body.lng,
+      address: req.body.address,
+      notes: req.body.notes,
+      is_saved: true
+    });
+
+    if (error) {
+      console.log(error);
+      res.status(200);
+      return res.json({
+        error: error,
+      });
+    } else {
+      res.status(200);
+      return res.json({ message: "success!"});
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+export { getAllBathrooms, setNewBathroom };

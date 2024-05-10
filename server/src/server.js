@@ -23,6 +23,7 @@ const options = {
 app.use(express.json());
 app.use(cors(options));
 
+
 app.get("/", (req, res) => {
   res.send("Hello world!");
 });
