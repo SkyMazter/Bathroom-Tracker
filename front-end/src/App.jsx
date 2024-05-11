@@ -5,7 +5,6 @@ import {
   useJsApiLoader,
   InfoWindowF,
 } from "@react-google-maps/api";
-import { RiMapPinUserFill } from "react-icons/ri";
 import { Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import mapStyle from "./style/mapStyle.js";
@@ -14,6 +13,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setLat, setLng } from "./store/slices/locationSlice.js";
 import { setMap, setMarkers } from "./store/slices/mapSlice.js";
 import userIcon from "./assets/user_icon.png";
+import bathroomPin from "./assets/bathroom_pin.png";
 
 function App() {
   const dispatch = useDispatch();
@@ -25,6 +25,7 @@ function App() {
 
   const [geoError, setGeoError] = useState(false);
   const [showInfoWin, setShowInfoWin] = useState(false);
+  const [showMarkers, setShowMarkers] = useState(false);
   const [winPos, setWinPos] = useState({ lat: 40.7678, lng: -73.9645 });
 
   const getGeoloaction = async () => {
@@ -56,7 +57,7 @@ function App() {
           address: nycPublicMarker.directions,
           lat: nycPublicMarker.position.lat,
           lng: nycPublicMarker.position.lng,
-          notes: "something",
+          notes: "This Marker was added using NYC Public Data",
         }),
       });
     } catch (error) {
@@ -77,6 +78,7 @@ function App() {
         const res = response.json();
         res.then((data) => {
           dispatch(setMarkers(data));
+          setShowMarkers(true);
         });
       }
     } catch (error) {
@@ -97,7 +99,6 @@ function App() {
     getAllBathrooms();
     return () => {
       console.log("loaded");
-      console.log(markers);
     };
   }, []);
 
@@ -150,7 +151,22 @@ function App() {
             ) : null}
 
             {/*  render all markers */}
-
+            {showMarkers
+              ? markers.map((marker, index) => (
+                  <MarkerF
+                    key={index}
+                    icon={{
+                      url: bathroomPin,
+                      scaledSize: new window.google.maps.Size(125, 125),
+                    }}
+                    position={{
+                      lat: marker.lat,
+                      lng: marker.lng,
+                    }}
+                    label={marker.name}
+                  />
+                ))
+              : null}
 
             <MarkerF
               position={center}
