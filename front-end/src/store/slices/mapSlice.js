@@ -7,15 +7,21 @@ export const mapSlice = createSlice({
     markers: [], //an array of objects used to draw markers
     selectedMarker: null,
     isShowingNycMarker: false,
+    // singleMarker: {
+    //   name: "null",
+    //   lat: -1,
+    //   lng: -1,
+    //   address: "null",
+    //   notes: "null",
+    //   is_saved: false
+    // }
   },
   reducers: {
     setMap: (state, action) => {
       state.map = action.payload;
     },
     setMarkers: (state, action) => {
-      let temp = state.markers;
-      temp.push(action.payload);
-      state.markers = temp;
+      state.markers = action.payload
     },
     setSelectedMarker: (state, action) => {
       state.selectedMarker = action.payload;

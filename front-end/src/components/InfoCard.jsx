@@ -8,7 +8,6 @@ import {
 } from "../store/slices/mapSlice";
 
 const InfoCard = (props) => {
-  // const [result, setResult] = useState();
   const dispatch = useDispatch();
   const map = useSelector((state) => state.map.map);
   const geocodeAddress = async (address) => {
@@ -39,6 +38,7 @@ const InfoCard = (props) => {
             setSelectedMarker({
               position: { lat: Number(data[0].lat), lng: Number(data[0].lon) },
               lable: props.name,
+              directions: props.location
             })
           );
           dispatch(showNycMarker());
