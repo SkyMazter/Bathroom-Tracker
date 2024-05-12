@@ -5,7 +5,7 @@ import {
   useJsApiLoader,
   InfoWindowF,
 } from "@react-google-maps/api";
-import { Button } from "react-bootstrap";
+import { Button, Card, ListGroup } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import mapStyle from "./style/mapStyle.js";
 import MapReCenter from "./components/MapReCenter.jsx";
@@ -22,10 +22,13 @@ function App() {
   const markers = useSelector((state) => state.map.markers);
   const nycPublicMarker = useSelector((state) => state.map.selectedMarker);
   const showNycMarker = useSelector((state) => state.map.isShowingNycMarker);
+  const map = useSelector((state) => state.map.map);
 
   const [geoError, setGeoError] = useState(false);
   const [showInfoWin, setShowInfoWin] = useState(false);
   const [showMarkers, setShowMarkers] = useState(false);
+  const [isNYCMarker, setIsNYCMarker] = useState(false);
+  const [dbMarkerInfo, setDbMarkerInfo] = useState(null);
   const [winPos, setWinPos] = useState({ lat: 40.7678, lng: -73.9645 });
 
   const getGeoloaction = async () => {
@@ -131,7 +134,7 @@ function App() {
               styles: mapStyle,
             }}
           >
-            {showInfoWin ? (
+            {showInfoWin && isNYCMarker ? (
               <InfoWindowF
                 position={winPos}
                 onCloseClick={() => {
@@ -141,12 +144,38 @@ function App() {
                 <Button
                   variant="success"
                   onClick={() => {
-                    // console.log(markers);
                     setNewBathroom();
+                    alert("Saved Succesfully");
                   }}
                 >
                   Save Bathroom
                 </Button>
+              </InfoWindowF>
+            ) : null}
+
+            {showInfoWin && !isNYCMarker ? (
+              <InfoWindowF
+                position={{
+                  lat: dbMarkerInfo.lat + 0.001,
+                  lng: dbMarkerInfo.lng,
+                }}
+                onCloseClick={() => {
+                  setShowInfoWin(false);
+                }}
+              >
+                <Card>
+                  <Card.Body>
+                    <ListGroup>
+                      <ListGroup.Item>
+                        <Card.Title>{dbMarkerInfo.name}</Card.Title>
+                        <Card.Subtitle>{dbMarkerInfo.address}</Card.Subtitle>
+                      </ListGroup.Item>
+                      <ListGroup.Item>
+                        <Card.Text>Notes: {dbMarkerInfo.notes}</Card.Text>
+                      </ListGroup.Item>
+                    </ListGroup>
+                  </Card.Body>
+                </Card>
               </InfoWindowF>
             ) : null}
 
@@ -163,7 +192,17 @@ function App() {
                       lat: marker.lat,
                       lng: marker.lng,
                     }}
-                    label={marker.name}
+                    // label={marker.name}
+                    onClick={() => {
+                      map.panTo({
+                        lat: marker.lat,
+                        lng: marker.lng,
+                      });
+                      map.setZoom(16);
+                      setIsNYCMarker(false);
+                      setDbMarkerInfo(marker);
+                      setShowInfoWin(true);
+                    }}
                   />
                 ))
               : null}
@@ -182,6 +221,7 @@ function App() {
                 onClick={() => {
                   setWinPos(nycPublicMarker.position);
                   setShowInfoWin(true);
+                  setIsNYCMarker(true);
                   console.log(showInfoWin);
                 }}
               ></MarkerF>

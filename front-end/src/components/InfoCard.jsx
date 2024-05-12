@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
 import { Row, Col, Button } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  setMarkers,
-  setSelectedMarker,
-  showNycMarker,
-} from "../store/slices/mapSlice";
+import { setSelectedMarker, showNycMarker } from "../store/slices/mapSlice";
 
 const InfoCard = (props) => {
   const dispatch = useDispatch();
@@ -38,7 +34,7 @@ const InfoCard = (props) => {
             setSelectedMarker({
               position: { lat: Number(data[0].lat), lng: Number(data[0].lon) },
               lable: props.name,
-              directions: props.location
+              directions: props.location,
             })
           );
           dispatch(showNycMarker());
@@ -65,7 +61,6 @@ const InfoCard = (props) => {
           variant="success"
           onClick={() => {
             geocodeAddress(props.name);
-            
           }}
         >
           View on Map
