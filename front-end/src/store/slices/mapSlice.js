@@ -7,6 +7,7 @@ export const mapSlice = createSlice({
     markers: [], //an array of objects used to draw markers
     selectedMarker: null,
     isShowingNycMarker: false,
+    isShowingDbMarkers: false,
     // singleMarker: {
     //   name: "null",
     //   lat: -1,
@@ -21,7 +22,7 @@ export const mapSlice = createSlice({
       state.map = action.payload;
     },
     setMarkers: (state, action) => {
-      state.markers = action.payload
+      state.markers = action.payload;
     },
     setSelectedMarker: (state, action) => {
       state.selectedMarker = action.payload;
@@ -32,9 +33,23 @@ export const mapSlice = createSlice({
     hideNycMarker: (state) => {
       state.isShowingNycMarker = false;
     },
+    showDbMarkers: (state) => {
+      state.isShowingDbMarkers = true;
+    },
+    hideDbMarkers: (state) => {
+      state.isShowingDbMarkers = false;
+    },
   },
 });
 
-export const { setMap, setMarkers, setSelectedMarker, showNycMarker, hideNycMarker } = mapSlice.actions;
+export const {
+  setMap,
+  setMarkers,
+  setSelectedMarker,
+  showNycMarker,
+  hideNycMarker,
+  hideDbMarkers,
+  showDbMarkers,
+} = mapSlice.actions;
 
 export default mapSlice.reducer;

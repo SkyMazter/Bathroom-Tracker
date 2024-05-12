@@ -6,6 +6,7 @@ const MapReCenter = () => {
   const [address, setAddress] = useState("");
   const dispatch = useDispatch();
   const map = useSelector((state) => state.map.map);
+  
   const geocodeAddress = async () => {
     if (address == "") {
       return;

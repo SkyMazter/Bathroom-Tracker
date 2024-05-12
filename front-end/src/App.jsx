@@ -11,7 +11,7 @@ import mapStyle from "./style/mapStyle.js";
 import MapReCenter from "./components/MapReCenter.jsx";
 import { useSelector, useDispatch } from "react-redux";
 import { setLat, setLng } from "./store/slices/locationSlice.js";
-import { setMap, setMarkers } from "./store/slices/mapSlice.js";
+import { setMap, setMarkers, showDbMarkers} from "./store/slices/mapSlice.js";
 import userIcon from "./assets/user_icon.png";
 import bathroomPin from "./assets/bathroom_pin.png";
 
@@ -22,11 +22,12 @@ function App() {
   const markers = useSelector((state) => state.map.markers);
   const nycPublicMarker = useSelector((state) => state.map.selectedMarker);
   const showNycMarker = useSelector((state) => state.map.isShowingNycMarker);
+  const showMarkers = useSelector((state) => state.map.isShowingDbMarkers)
   const map = useSelector((state) => state.map.map);
 
   const [geoError, setGeoError] = useState(false);
   const [showInfoWin, setShowInfoWin] = useState(false);
-  const [showMarkers, setShowMarkers] = useState(false);
+  // const [showMarkers, setShowMarkers] = useState(false);
   const [isNYCMarker, setIsNYCMarker] = useState(false);
   const [dbMarkerInfo, setDbMarkerInfo] = useState(null);
   const [winPos, setWinPos] = useState({ lat: 40.7678, lng: -73.9645 });
@@ -81,7 +82,8 @@ function App() {
         const res = response.json();
         res.then((data) => {
           dispatch(setMarkers(data));
-          setShowMarkers(true);
+          // setShowMarkers(true);
+          dispatch(showDbMarkers())
         });
       }
     } catch (error) {
@@ -91,7 +93,7 @@ function App() {
 
   const divStyle = {
     width: "95vw",
-    height: "500px",
+    height: "625px",
   };
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_API_KEY,
@@ -117,7 +119,7 @@ function App() {
       <div
         style={{
           width: "95vw",
-          height: "550px",
+          height: "675px",
         }}
       >
         <MapReCenter></MapReCenter>
@@ -181,7 +183,7 @@ function App() {
 
             {/*  render all markers */}
             {showMarkers
-              ? markers.map((marker, index) => (
+              && markers.map((marker, index) => (
                   <MarkerF
                     key={index}
                     icon={{
@@ -205,7 +207,7 @@ function App() {
                     }}
                   />
                 ))
-              : null}
+              }
 
             <MarkerF
               position={center}

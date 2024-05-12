@@ -5,7 +5,7 @@ const getAllBathrooms = async (req, res) => {
     const { data, error } = await supabase.from("bathrooms").select();
     if (data) {
       res.status(200);
-      console.log(data)
+
       return res.json(data);
     } else if (error) {
       res.status(400);
