@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { Container } from "react-bootstrap";
+import { Button, Container, Row, Col } from "react-bootstrap";
 import InfoCard from "./InfoCard.jsx";
 import "../style/QuickInfo.css";
+import { Link } from "react-router-dom";
 
 const QuickInfo = () => {
   //PLans for this component
@@ -48,14 +49,12 @@ const QuickInfo = () => {
     let arr = nycData;
     return (
       <div>
-        <h2 className="display-6">
-          Bathrooms according to NYC Public Data
-        </h2>
+        <h2 className="display-6">Bathrooms according to NYC Public Data</h2>
         <Container
           style={{
             backgroundColor: "#306b64",
           }}
-          className="my-3 scrollable p-3 rounded"
+          className="my-3 scrollable p-3 "
         >
           {arr.map((element, index) => (
             <InfoCard
@@ -64,6 +63,18 @@ const QuickInfo = () => {
               key={index}
             ></InfoCard>
           ))}
+        </Container>
+        <Container>
+          <Row>
+            <Col xs={8}>
+              <h3 className="display-6"> Have a spot you want to share? Add it to our database!</h3>
+            </Col>
+            <Col xs={4}>
+              <Link to={"/submit"}>
+              <Button>Submit Here!</Button>
+              </Link>
+            </Col>
+          </Row>
         </Container>
       </div>
     );

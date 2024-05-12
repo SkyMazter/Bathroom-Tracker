@@ -64,7 +64,7 @@ const MapReCenter = () => {
           style={{
             width: "20%",
           }}
-          className="d-flex flex-column justify-content-center px-1"
+          className="d-flex flex-column justify-content-end"
         >
           <button type="submit">Enter</button>
         </div>

@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import QuickInfo from "./components/QuickInfo";
 import { Provider } from "react-redux";
 import store from "./store/store.js";
+import Submit from "./components/Submit.jsx";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const router = createBrowserRouter([
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <QuickInfo />,
+      },
+      {
+        path: "/submit",
+        element: <Submit/>,
       },
     ],
   },
