@@ -4,6 +4,7 @@ import {
   MarkerF,
   useJsApiLoader,
   InfoWindowF,
+  DirectionsRenderer,
 } from "@react-google-maps/api";
 import {
   Button,
@@ -40,6 +41,9 @@ function App() {
   const [isNYCMarker, setIsNYCMarker] = useState(false);
   const [dbMarkerInfo, setDbMarkerInfo] = useState(null);
   const [winPos, setWinPos] = useState({ lat: 40.7678, lng: -73.9645 });
+
+  const [path, setPath] = useState(false);
+  const [directions, setDirections] = useState(null);
 
   const getGeoloaction = async () => {
     if (navigator.geolocation) {
@@ -91,13 +95,22 @@ function App() {
         const res = response.json();
         res.then((data) => {
           dispatch(setMarkers(data));
-          // setShowMarkers(true);
           dispatch(showDbMarkers());
         });
       }
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const getRouteToBathroom = async (startingPoint, endingPoint) => {
+    const directionsService = new google.maps.DirectionsService();
+    const results = await directionsService.route({
+      origin: startingPoint,
+      destination: endingPoint,
+      travelMode: google.maps.TravelMode.WALKING,
+    });
+    setDirections(results);
   };
 
   const divStyle = {
@@ -128,7 +141,11 @@ function App() {
           <Col xs={4} md={3}>
             <Image src={logo} fluid></Image>
           </Col>
-          <Col xs={8} md={9} className="d-flex flex-column justify-content-center align-items-center">
+          <Col
+            xs={8}
+            md={9}
+            className="d-flex flex-column justify-content-center align-items-center"
+          >
             <p className="display-3">Potty Portal</p>
           </Col>
         </Row>
@@ -154,6 +171,9 @@ function App() {
               styles: mapStyle,
             }}
           >
+            {path && directions && (
+              <DirectionsRenderer directions={directions}></DirectionsRenderer>
+            )}
             {showInfoWin && isNYCMarker ? (
               <InfoWindowF
                 position={winPos}
@@ -222,6 +242,11 @@ function App() {
                     setIsNYCMarker(false);
                     setDbMarkerInfo(marker);
                     setShowInfoWin(true);
+                    getRouteToBathroom(center, {
+                      lat: marker.lat,
+                      lng: marker.lng,
+                    });
+                    setPath(true);
                   }}
                 />
               ))}
@@ -241,7 +266,9 @@ function App() {
                   setWinPos(nycPublicMarker.position);
                   setShowInfoWin(true);
                   setIsNYCMarker(true);
-                  console.log(showInfoWin);
+
+                  getRouteToBathroom(center, nycPublicMarker.position);
+                  setPath(true);
                 }}
               ></MarkerF>
             ) : null}

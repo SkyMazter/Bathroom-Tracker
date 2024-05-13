@@ -55,7 +55,7 @@ const QuickInfo = () => {
           }}>
           <Row>
             <Col xs={8}>
-              <h3 className="display-6"> Have a spot you want to share? Add it to our database!</h3>
+              <h3 className="display-6 "> Have a spot you want to share? Add it to our database!</h3>
             </Col>
             <Col xs={4} className="d-flex flex-column justify-content-center align-items-center">
               <Link to={"/submit"}>
@@ -64,7 +64,7 @@ const QuickInfo = () => {
             </Col>
           </Row>
         </Container>
-        <h2 className="display-6">Bathrooms according to NYC Public Data</h2>
+        <h2 className="display-6 text-center">Bathrooms according to NYC Public Data</h2>
         <Container
           style={{
             backgroundColor: "#306b64",
