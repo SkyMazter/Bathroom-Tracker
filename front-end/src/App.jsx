@@ -5,15 +5,24 @@ import {
   useJsApiLoader,
   InfoWindowF,
 } from "@react-google-maps/api";
-import { Button, Card, ListGroup } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  Col,
+  Container,
+  ListGroup,
+  Row,
+  Image,
+} from "react-bootstrap";
 import { useState, useEffect } from "react";
 import mapStyle from "./style/mapStyle.js";
 import MapReCenter from "./components/MapReCenter.jsx";
 import { useSelector, useDispatch } from "react-redux";
 import { setLat, setLng } from "./store/slices/locationSlice.js";
-import { setMap, setMarkers, showDbMarkers} from "./store/slices/mapSlice.js";
+import { setMap, setMarkers, showDbMarkers } from "./store/slices/mapSlice.js";
 import userIcon from "./assets/user_icon.png";
 import bathroomPin from "./assets/bathroom_pin.png";
+import logo from "./assets/Logo.png";
 
 function App() {
   const dispatch = useDispatch();
@@ -22,7 +31,7 @@ function App() {
   const markers = useSelector((state) => state.map.markers);
   const nycPublicMarker = useSelector((state) => state.map.selectedMarker);
   const showNycMarker = useSelector((state) => state.map.isShowingNycMarker);
-  const showMarkers = useSelector((state) => state.map.isShowingDbMarkers)
+  const showMarkers = useSelector((state) => state.map.isShowingDbMarkers);
   const map = useSelector((state) => state.map.map);
 
   const [geoError, setGeoError] = useState(false);
@@ -83,7 +92,7 @@ function App() {
         res.then((data) => {
           dispatch(setMarkers(data));
           // setShowMarkers(true);
-          dispatch(showDbMarkers())
+          dispatch(showDbMarkers());
         });
       }
     } catch (error) {
@@ -114,7 +123,16 @@ function App() {
       }}
       className="d-flex flex-column justify-content-center align-items-center"
     >
-      <p className="display-3">Bathroom Finder</p>
+      <Container>
+        <Row>
+          <Col xs={4} md={3}>
+            <Image src={logo} fluid></Image>
+          </Col>
+          <Col xs={8} md={9} className="d-flex flex-column justify-content-center align-items-center">
+            <p className="display-3">Potty Portal</p>
+          </Col>
+        </Row>
+      </Container>
 
       <div
         style={{
@@ -182,32 +200,31 @@ function App() {
             ) : null}
 
             {/*  render all markers */}
-            {showMarkers
-              && markers.map((marker, index) => (
-                  <MarkerF
-                    key={index}
-                    icon={{
-                      url: bathroomPin,
-                      scaledSize: new window.google.maps.Size(125, 125),
-                    }}
-                    position={{
+            {showMarkers &&
+              markers.map((marker, index) => (
+                <MarkerF
+                  key={index}
+                  icon={{
+                    url: bathroomPin,
+                    scaledSize: new window.google.maps.Size(125, 125),
+                  }}
+                  position={{
+                    lat: marker.lat,
+                    lng: marker.lng,
+                  }}
+                  // label={marker.name}
+                  onClick={() => {
+                    map.panTo({
                       lat: marker.lat,
                       lng: marker.lng,
-                    }}
-                    // label={marker.name}
-                    onClick={() => {
-                      map.panTo({
-                        lat: marker.lat,
-                        lng: marker.lng,
-                      });
-                      map.setZoom(16);
-                      setIsNYCMarker(false);
-                      setDbMarkerInfo(marker);
-                      setShowInfoWin(true);
-                    }}
-                  />
-                ))
-              }
+                    });
+                    map.setZoom(16);
+                    setIsNYCMarker(false);
+                    setDbMarkerInfo(marker);
+                    setShowInfoWin(true);
+                  }}
+                />
+              ))}
 
             <MarkerF
               position={center}

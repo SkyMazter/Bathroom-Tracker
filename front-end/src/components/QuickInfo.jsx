@@ -49,12 +49,27 @@ const QuickInfo = () => {
     let arr = nycData;
     return (
       <div>
+        <Container style={{
+            backgroundColor: "#306b64",
+            color: "white"
+          }}>
+          <Row>
+            <Col xs={8}>
+              <h3 className="display-6"> Have a spot you want to share? Add it to our database!</h3>
+            </Col>
+            <Col xs={4} className="d-flex flex-column justify-content-center align-items-center">
+              <Link to={"/submit"}>
+              <Button variant="outline-light">Submit Here!</Button>
+              </Link>
+            </Col>
+          </Row>
+        </Container>
         <h2 className="display-6">Bathrooms according to NYC Public Data</h2>
         <Container
           style={{
             backgroundColor: "#306b64",
           }}
-          className="my-3 scrollable p-3 "
+          className="mt-3 scrollable p-3 "
         >
           {arr.map((element, index) => (
             <InfoCard
@@ -64,18 +79,7 @@ const QuickInfo = () => {
             ></InfoCard>
           ))}
         </Container>
-        <Container>
-          <Row>
-            <Col xs={8}>
-              <h3 className="display-6"> Have a spot you want to share? Add it to our database!</h3>
-            </Col>
-            <Col xs={4}>
-              <Link to={"/submit"}>
-              <Button>Submit Here!</Button>
-              </Link>
-            </Col>
-          </Row>
-        </Container>
+        
       </div>
     );
   } else {
