@@ -14,6 +14,7 @@ import {
   ListGroup,
   Row,
   Image,
+  ButtonGroup,
 } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import mapStyle from "./style/mapStyle.js";
@@ -157,7 +158,7 @@ function App() {
           height: "675px",
         }}
       >
-        <MapReCenter></MapReCenter>
+        
         {isLoaded ? (
           <GoogleMap
             center={center}
@@ -232,13 +233,12 @@ function App() {
                     lat: marker.lat,
                     lng: marker.lng,
                   }}
-                  // label={marker.name}
                   onClick={() => {
                     map.panTo({
                       lat: marker.lat,
                       lng: marker.lng,
                     });
-                    map.setZoom(16);
+                    map.setZoom(20);
                     setIsNYCMarker(false);
                     setDbMarkerInfo(marker);
                     setShowInfoWin(true);
@@ -276,8 +276,49 @@ function App() {
         ) : (
           <p>There was an error loading the map</p>
         )}
+        <MapReCenter></MapReCenter>
       </div>
-
+      
+      <Container>
+        <Row>
+          <Col
+            xs={12}
+            className=" my-2 d-flex flex-column justify-content-center align-items-center"
+          >
+            <ButtonGroup>
+              <Button
+                variant="light"
+                onClick={() => {
+                  map.panTo(center);
+                  map.setZoom(16);
+                }}
+              >
+                Recenter Map
+              </Button>
+              <Button
+                variant="light"
+                onClick={() => {
+                  getGeoloaction();
+                }}
+              >
+                Update Geolocation
+              </Button>
+              <Button
+                variant="danger"
+                onClick={() => {
+                  map.panTo(center);
+                  map.setZoom(16);
+                  setDirections(null);
+                  setPath(false);
+                  setShowInfoWin(false);
+                }}
+              >
+                Reset Map
+              </Button>
+            </ButtonGroup>
+          </Col>
+        </Row>
+      </Container>
       <Outlet />
     </div>
   );
